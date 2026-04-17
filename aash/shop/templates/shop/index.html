@@ -117,11 +117,11 @@ padding-right: 0;
   }
   else {
     cart = JSON.parse(localStorage.getItem('cart'));
-    document.getElementById('cart').innerHTML = Object.keys(cart).length;
     updateCart(cart)
   }
 // If the add to cart button is clicked, add/incriment the item
-  $('.cart').click(function () {
+  // $('.cart').click(function () {
+    $('.divpr').on('click', 'button.cart', function(){
     var idstr = this.id.toString();
     console.log(idstr);
     if (cart[idstr] != undefined) {
@@ -147,9 +147,6 @@ padding-right: 0;
         })
       })
   })
-  
-
-
 
 updatePopover(cart);
 
@@ -164,20 +161,32 @@ updatePopover(cart);
         popStr = popStr + document.getElementById('name' + item).innerHTML.slice(0, 19) + "... Qty: " + cart[item] + '<br>';
         i = i+1;
     }
-    popStr = popStr + "</div>" 
+    popStr = popStr + "</div> <a href='/shop/checkout/'> <button class= 'btn btn-primary' id='checkout'> CheckOut </button> </a>  <button class= 'btn btn-primary'  onclick='clearCart()' id='clearCart' > ClearCart </button>   " 
     console.log(popStr);
     document.getElementById("popcart").setAttribute('data-content', popStr);
     
 }
 
+function clearCart(){
+  cart = JSON.parse(localStorage.getItem('cart'));
+  for (var item in cart){
+    document.getElementById('div' + item).innerHTML = '<button id="'+ item +'" class="btn btn-primary cart">Add To Cart</button>'
+  }
+  localStorage.clear();
+  cart = {};
+  updateCart(cart);
+}
+
+
   function updateCart(cart){
-    console.log(cart);
+    var sum = 0;
     for(var item in cart){
+      sum = sum + cart[item];
       document.getElementById('div'+item).innerHTML = " <button id='minus" + item+ "' class='btn btn-primary minus'>-</button> <span id = 'val" + item + "''>" + cart[item]
         +"</span> <button id='plus" + item + "' class='btn btn-primary plus '> + </button> ";
     }
     localStorage.setItem('cart', JSON.stringify(cart));
-    document.getElementById('cart').innerHTML = Object.keys(cart).length;
+    document.getElementById('cart').innerHTML = sum;
     updatePopover(cart);
   }
 
