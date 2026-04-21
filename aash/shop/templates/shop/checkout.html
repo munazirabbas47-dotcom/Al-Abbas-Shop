@@ -1,5 +1,5 @@
 {% extends 'shop/basics.html' %} 
-{% block title %} Checkout - Al AbbasShop{%endblock %}
+{% block title %} Checkout - AlAbbasShop{%endblock %} 
 {% block body %}
 
 <div class="container">
@@ -11,13 +11,17 @@
   </div>
   <div class="col my-4">
     <h2>Step 2 - Enter Address & Other Details:</h2>
-    <form class="row g-3">
+    <form class="row g-3" method="post" action="/shop/checkout/">
+      {% csrf_token %}
+      <input type="hidden" name="itemsJson" id="itemsJson" />
       <div class="col-md-6">
         <label for="inputname" class="form-label">Name</label>
         <input
-          type="name"
+          type="text"
           class="form-control"
-          id="inputname"
+          id="name"
+          name="name"
+          required="true"
           placeholder="Name" />
       </div>
 
@@ -26,7 +30,9 @@
         <input
           type="email"
           class="form-control"
-          id="inputEmail4"
+          id="email"
+          name="email"
+          required="true"
           placeholder="Email" />
       </div>
 
@@ -35,7 +41,9 @@
         <input
           type="text"
           class="form-control"
-          id="inputAddress"
+          id="address1"
+          name="address1"
+          required="true"
           placeholder="1234 Main St" />
       </div>
 
@@ -44,13 +52,20 @@
         <input
           type="text"
           class="form-control"
-          id="inputAddress2"
+          id="address2"
+          name="address2"
+          required="true"
           placeholder="Apartment, studio, or floor" />
       </div>
 
       <div class="col-md-6">
         <label for="inputCity" class="form-label">City</label>
-        <input type="text" class="form-control" id="inputCity" />
+        <input
+          type="text"
+          class="form-control"
+          required="true"
+          id="city"
+          name="city" />
       </div>
 
       <div class="col-md-4">
@@ -58,18 +73,30 @@
         <input
           type="text"
           class="form-control"
-          id="inputState"
+          id="state"
+          name="state"
+          required="true"
           placeholder="Enter State" />
       </div>
 
       <div class="col-md-2">
         <label for="inputZip" class="form-label">Zip</label>
-        <input type="text" class="form-control" id="inputZip" />
+        <input
+          type="text"
+          class="form-control"
+          required="true"
+          id="zip_code"
+          name="zip_code" />
       </div>
 
       <div class="col-md-12">
         <label for="inputPhone" class="form-label">Phone</label>
-        <input type="tel" class="form-control" id="inputPhone" />
+        <input
+          type="tel"
+          class="form-control"
+          required="true"
+          id="phone"
+          name="phone" />
       </div>
 
       <div class="col-12 my-2">
@@ -108,6 +135,12 @@
   }
 
   document.getElementById("cart").innerHTML = sum;
+  $('#itemsJson').val(JSON.stringify(cart));
+  {% if thanks %}
+  alert('Thanks For Ordering With Us. Your Order Id Is {{id}}. Use It To Track Your Order Our Order Tracker');
+  localStorage.clear();
+  document.location = "/shop/";
+  {% endif %}
 </script>
 
 {% endblock %}

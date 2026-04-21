@@ -9,27 +9,37 @@
     <form action="/shop/contact/" method="post">{% csrf_token %}
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name">
+            <input type="text" class="form-control" id="name" name="name" placeholder="Enter Your Name" required="true">
         </div>
         <div class="form-group">
             <label for="name">Email</label>
-            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email">
+            <input type="email" class="form-control" id="email" name="email" placeholder="Enter Your Email"
+                required="true">
         </div>
         <div class="form-group">
             <label for="name">Phome</label>
-            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter Your Phone Number">
+            <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter Your Phone Number"
+                required="true">
         </div>
         <div class="form-group">
             <div class="form-group">
                 <label for="desc">How May We Help You ?</label>
-                <textarea class="form-control" id="desc" name="desc" rows="3"></textarea>
+                <textarea class="form-control" id="desc" name="desc" rows="3" required="true"></textarea>
 
             </div>
             <button type="submit" class="btn btn-success">Submit</button>
     </form>
 </div>
+{% endblock %}
+{% block js%}
 
+<script>
+    {% if thanks %}
+    alert('Thanks For Contacting us We Will Get You Soon!')
+    document.location = "/shop/";
 
+    {% endif %}
 
+</script>
 
-    {% endblock %}
+{% endblock %}
