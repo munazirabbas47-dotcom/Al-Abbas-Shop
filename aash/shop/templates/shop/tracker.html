@@ -1,7 +1,103 @@
 {% extends 'shop/basics.html' %}
+{% block title %} Al Abbas Shop Tracker {%endblock %}
+{% block body %}
 
+<div class="container">
+    <div class="col my-4">
+        <h2>Enter your Order Id and Email address to track your order </h2>
+        <form class="row g-3" method="post" action="#" id="trackerForm"> {% csrf_token %}
+            <div class="col-md-6">
+                <label for="inputname" class="form-label">Order Id</label>
+                <input type="text" class="form-control" id="orderId" name="orderId" required="true"
+                    placeholder="Order Id" />
+            </div>
 
+            <div class="col-md-6">
+                <label for="inputEmail4" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" required="true" placeholder="Email" />
+            </div>
+            <div class="col-12 my-2">
+                <button type="submit" class="btn btn-primary">Track Order</button>
+            </div>
 
-{% block title %} Tracker - Al Abbas Shop  {% endblock %}
-{% block body %} This is tracker page {% endblock %}
-{% block js %}  {% endblock %}
+    </div>
+    <div class="col my-4">
+        <h2>Your Order Status</h2>
+        <div class="my-4">
+            <ul class="list-group" id="items">
+                Enter your order Id and Email and click Track Order to find details about your order!
+            </ul>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js %}
+<script>
+    $('#trackerForm').submit(function (event) {
+        $('#items').empty();
+        var formData = {
+            'orderId': $('input[name=orderId]').val(),
+            'email': $('input[name=email]').val(),
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+        };
+        $.ajax({
+            type: 'POST',
+            url: '/shop/tracker/',
+            data: formData,
+            encode: true
+
+        })
+            .done(function (data) {
+
+                console.log(data);
+
+                let updates = JSON.parse(data);
+
+                $('#items').empty();
+
+                let mystr = "";
+
+                if (updates.length > 0) {
+
+                    for (let i = 0; i < updates.length; i++) {
+
+                        let text = updates[i]['text'];
+
+                        let time = new Date(updates[i]['time'])
+                            .toLocaleString('en-PK', {
+                                timeZone: 'Asia/Karachi',
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'short',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                                hour12: true
+                            });
+
+                        mystr += `<li class="list-group-item d-flex justify-content-between align-items-center">
+                ${text}
+                <span class="badge bg-primary">${time}</span>
+            </li>`;
+                    }
+
+                    $('#items').append(mystr);
+
+                } else {
+                    mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    Sorry, We are not able to fetch this order id and email. Make sure to type correct order Id and email</li>`
+                    $('#items').append(mystr);
+
+                    $('#items').append(mystr);
+                }
+
+            });
+
+        event.preventDefault();
+    });
+</script>
+{% endblock %}
