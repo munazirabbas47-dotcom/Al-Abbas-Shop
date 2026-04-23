@@ -56,7 +56,7 @@ def tracker(request):
                         'time': item.timestamp
                     })
 
-                response = json.dumps(updates, default=str)
+                response = json.dumps([updates, order[0].items_json], default=str)
                 return HttpResponse(response)
 
             else:

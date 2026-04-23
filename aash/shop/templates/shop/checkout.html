@@ -7,6 +7,14 @@
     <h2>Step 1 - Al Abbas Shop Express Checkout - Review Yours Cart Items</h2>
     <div class="my-4">
       <ul class="list-group" id="items"></ul>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb mt-3">
+    <li class="breadcrumb-item active" aria-current="page">Your Cart Total Is <b>Rs: <span id="totalPrice"></span></b>. Enter your details below & place your order! Thanks for using AL Abbas Shop</li>
+  </ol>
+</nav>
+
+      
     </div>
   </div>
   <div class="col my-4">
@@ -117,6 +125,7 @@
 
   console.log(cart);
   var sum = 0;
+  var totalPrice = 0;
   if ($.isEmptyObject(cart)) {
     // if object is empty
     mystr = `<p>Your Cart Is Empty, Please Add Some Items In Your Cart Before Checking Out!</p>`;
@@ -125,7 +134,9 @@
     for (item in cart) {
       let name = cart[item][1];
       let qty = cart[item][0];
+      let itemPrice = cart[item][2];
       sum = sum + qty;
+      totalPrice = totalPrice + qty* itemPrice;
       mystr = ` <li class="list-group-item d-flex justify-content-between align-items-center">
           ${name}
           <span class="badge badge-primary badge-pill">${qty}</span>
@@ -135,6 +146,7 @@
   }
 
   document.getElementById("cart").innerHTML = sum;
+  document.getElementById("totalPrice").innerHTML = totalPrice;
   $('#itemsJson').val(JSON.stringify(cart));
   {% if thanks %}
   alert('Thanks For Ordering With Us. Your Order Id Is {{id}}. Use It To Track Your Order Our Order Tracker');
