@@ -1,5 +1,5 @@
-{% extends 'shop/basics.html' %} 
-{% block title %} Checkout - AlAbbasShop{%endblock %} 
+{% extends 'shop/basics.html' %}
+{% block title %} Checkout - AlAbbasShop{%endblock %}
 {% block body %}
 
 <div class="container">
@@ -8,13 +8,15 @@
     <div class="my-4">
       <ul class="list-group" id="items"></ul>
 
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb mt-3">
-    <li class="breadcrumb-item active" aria-current="page">Your Cart Total Is <b>Rs: <span id="totalPrice"></span></b>. Enter your details below & place your order! Thanks for using AL Abbas Shop</li>
-  </ol>
-</nav>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb mt-3">
+          <li class="breadcrumb-item active" aria-current="page">Your Cart Total Is <b>Rs: <span
+                id="totalPrice"></span></b>. Enter your details below & place your order! Thanks for using AL Abbas Shop
+          </li>
+        </ol>
+      </nav>
 
-      
+
     </div>
   </div>
   <div class="col my-4">
@@ -24,87 +26,44 @@
       <input type="hidden" name="itemsJson" id="itemsJson" />
       <div class="col-md-6">
         <label for="inputname" class="form-label">Name</label>
-        <input
-          type="text"
-          class="form-control"
-          id="name"
-          name="name"
-          required="true"
-          placeholder="Name" />
+        <input type="text" class="form-control" id="name" name="name" required="true" placeholder="Name" />
       </div>
 
       <div class="col-md-6">
         <label for="inputEmail4" class="form-label">Email</label>
-        <input
-          type="email"
-          class="form-control"
-          id="email"
-          name="email"
-          required="true"
-          placeholder="Email" />
+        <input type="email" class="form-control" id="email" name="email" required="true" placeholder="Email" />
       </div>
 
       <div class="col-12">
         <label for="inputAddress" class="form-label">Address</label>
-        <input
-          type="text"
-          class="form-control"
-          id="address1"
-          name="address1"
-          required="true"
+        <input type="text" class="form-control" id="address1" name="address1" required="true"
           placeholder="1234 Main St" />
       </div>
 
       <div class="col-12">
         <label for="inputAddress2" class="form-label">Address line 2</label>
-        <input
-          type="text"
-          class="form-control"
-          id="address2"
-          name="address2"
-          required="true"
+        <input type="text" class="form-control" id="address2" name="address2" required="true"
           placeholder="Apartment, studio, or floor" />
       </div>
 
       <div class="col-md-6">
         <label for="inputCity" class="form-label">City</label>
-        <input
-          type="text"
-          class="form-control"
-          required="true"
-          id="city"
-          name="city" />
+        <input type="text" class="form-control" required="true" id="city" name="city" />
       </div>
 
       <div class="col-md-4">
         <label for="inputState" class="form-label">State</label>
-        <input
-          type="text"
-          class="form-control"
-          id="state"
-          name="state"
-          required="true"
-          placeholder="Enter State" />
+        <input type="text" class="form-control" id="state" name="state" required="true" placeholder="Enter State" />
       </div>
 
       <div class="col-md-2">
         <label for="inputZip" class="form-label">Zip</label>
-        <input
-          type="text"
-          class="form-control"
-          required="true"
-          id="zip_code"
-          name="zip_code" />
+        <input type="text" class="form-control" required="true" id="zip_code" name="zip_code" />
       </div>
 
       <div class="col-md-12">
         <label for="inputPhone" class="form-label">Phone</label>
-        <input
-          type="tel"
-          class="form-control"
-          required="true"
-          id="phone"
-          name="phone" />
+        <input type="tel" class="form-control" required="true" id="phone" name="phone" />
       </div>
 
       <div class="col-12 my-2">
@@ -114,7 +73,7 @@
   </div>
 </div>
 
-{% endblock %} 
+{% endblock %}
 {% block js %}
 <script>
   if (localStorage.getItem("cart") == null) {
@@ -136,7 +95,7 @@
       let qty = cart[item][0];
       let itemPrice = cart[item][2];
       sum = sum + qty;
-      totalPrice = totalPrice + qty* itemPrice;
+      totalPrice = totalPrice + qty * itemPrice;
       mystr = ` <li class="list-group-item d-flex justify-content-between align-items-center">
           ${name}
           <span class="badge badge-primary badge-pill">${qty}</span>

@@ -51,19 +51,16 @@ def tracker(request):
                 updates = []
 
                 for item in update:
-                    updates.append({
-                        'text': item.update_desc,
-                        'time': item.timestamp
-                    })
+                    updates.append({"text": item.update_desc, "time": item.timestamp})
 
                 response = json.dumps([updates, order[0].items_json], default=str)
                 return HttpResponse(response)
 
             else:
-                return HttpResponse('No order found')
+                return HttpResponse("No order found")
 
         except Exception as e:
-            return HttpResponse(f'No order found')
+            return HttpResponse(f"No order found")
 
     return render(request, "shop/tracker.html")
 
@@ -101,7 +98,9 @@ def checkout(request):
             phone=phone,
         )
         order.save()
-        update = OrderUpdate(order_id=order.Order_id, update_desc="The order has been placed")
+        update = OrderUpdate(
+            order_id=order.Order_id, update_desc="The order has been placed"
+        )
         update.save()
         thanks = True
         id = order.Order_id

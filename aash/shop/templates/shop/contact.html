@@ -31,12 +31,13 @@
     </form>
 </div>
 {% endblock %}
+
 {% block js%}
 
 <script>
     {% if thanks %}
     alert('Thanks For Contacting us We Will Get You Soon!')
-    document.location = "/shop/";
+    document.location = "/shop/contact";
 
     {% endif %}
 
