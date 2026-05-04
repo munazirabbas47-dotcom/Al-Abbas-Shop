@@ -17,9 +17,7 @@ class Blogpost(models.Model):
     def __str__(self):
         return self.title
 
-    # create a model for comments
-
-
+# create a model for comments
 class Comment(models.Model):
     post = models.ForeignKey(
         Blogpost, on_delete=models.CASCADE, related_name="comments"

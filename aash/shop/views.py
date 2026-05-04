@@ -21,6 +21,36 @@ def index(request):
     return render(request, "shop/index.html", parms)
 
 
+def searchMatch(query, item):
+    """return true only if query match the item"""
+    if (
+        query in item.dese.lower()
+        or query in item.product_name.lower()
+        or query in item.catagory.lower()
+    ):
+        return True
+    else:
+        return False
+
+
+def search(request):
+    query = request.GET.get("search")
+    allProds = []
+    catprods = Product.objects.values("catagory", "id")
+    cats = {item["catagory"] for item in catprods}
+    for cat in cats:
+        prodtemp = Product.objects.filter(catagory=cat)
+        prod = [item for item in prodtemp if searchMatch(query, item)]
+        n = len(prod)
+        nSlides = n // 4 + ceil((n / 4) - (n // 4))
+        if len(prod) != 0:
+            allProds.append([prod, range(1, nSlides), nSlides])
+    parms = {"allProds": allProds,"msg": ""}
+    if len(allProds) == 0 or len(query)<3:
+        parms = {'msg': "Please make sure to enter relevent query"}
+    return render(request, "shop/search.html", parms)
+
+
 def contact(request):
     if request.method == "POST":
         name = request.POST.get("name", "")
@@ -65,10 +95,6 @@ def tracker(request):
     return render(request, "shop/tracker.html")
 
 
-def search(request):
-    return render(request, "shop/search.html")
-
-
 def productviews(request, myid):
     # fetch the product using the id
     product = Product.objects.filter(id=myid)
@@ -79,6 +105,7 @@ def checkout(request):
     if request.method == "POST":
         items_json = request.POST.get("itemsJson", "")
         name = request.POST.get("name", "")
+        amount = request.POST.get("amount", "")
         email = request.POST.get("email", "")
         address = (
             request.POST.get("address1", "") + " " + request.POST.get("address2", "")
@@ -96,6 +123,7 @@ def checkout(request):
             state=state,
             zip_code=zip_code,
             phone=phone,
+            amount=amount,
         )
         order.save()
         update = OrderUpdate(
