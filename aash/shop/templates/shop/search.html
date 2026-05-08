@@ -117,10 +117,11 @@ padding-right: 0;
 {% block js %}
 
 <script>
+
     {%if msg|length != 0 %}
-alert('{{msg}}');
-window.location.href="/"
-{%endif%}
+    alert('{{msg}}');
+    window.location.href = "/"
+    {%endif%}
 
     // find the out cart items from localstorage
     if (localStorage.getItem('cart') == null) {

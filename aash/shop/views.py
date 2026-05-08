@@ -45,9 +45,9 @@ def search(request):
         nSlides = n // 4 + ceil((n / 4) - (n // 4))
         if len(prod) != 0:
             allProds.append([prod, range(1, nSlides), nSlides])
-    parms = {"allProds": allProds,"msg": ""}
-    if len(allProds) == 0 or len(query)<3:
-        parms = {'msg': "Please make sure to enter relevent query"}
+    parms = {"allProds": allProds, "msg": ""}
+    if len(allProds) == 0 or len(query) < 3:
+        parms = {"msg": "Please make sure to enter relevent query"}
     return render(request, "shop/search.html", parms)
 
 
@@ -83,14 +83,21 @@ def tracker(request):
                 for item in update:
                     updates.append({"text": item.update_desc, "time": item.timestamp})
 
-                response = json.dumps([updates, order[0].items_json], default=str)
+                response = json.dumps(
+                    {
+                        "status": "success",
+                        "updates": updates,
+                        "itemJson": order[0].items_json,
+                    },
+                    default=str,
+                )
                 return HttpResponse(response)
 
             else:
-                return HttpResponse("No order found")
+                return HttpResponse('{"status": "no items"}')
 
         except Exception as e:
-            return HttpResponse(f"No order found")
+            return HttpResponse('{"status": "error"}')
 
     return render(request, "shop/tracker.html")
 

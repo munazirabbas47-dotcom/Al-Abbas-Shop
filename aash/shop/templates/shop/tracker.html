@@ -56,17 +56,19 @@
 
         })
             .done(function (data) {
+                $("#citems").empty();
 
                 console.log(data);
                 data = JSON.parse(data);
 
-                updates = data[0];
+
 
                 $('#items').empty();
 
                 let mystr = "";
 
-                if (updates.length > 0) {
+                if (data['status'] == 'success') {
+                    updates = data['updates'];
 
                     for (let i = 0; i < updates.length; i++) {
 
@@ -92,24 +94,28 @@
 
                     $('#items').append(mystr);
 
+
+                    // fill in the order details
+                    cart = JSON.parse(data['itemJson']);
+                    console.log(cart);
+                    for (item in cart) {
+                        let name = cart[item][1];
+                        let qty = cart[item][0];
+                        mystr = ` <li class="list-group-item d-flex justify-content-between align-items-center">
+            ${name}
+            <span class="badge badge-primary badge-pill">${qty}</span>
+        </li>`;
+                        $("#citems").append(mystr);
+                    }
+
                 } else {
                     mystr = `<li class="list-group-item d-flex justify-content-between align-items-center">
                     Sorry, We are not able to fetch this order id and email. Make sure to type correct order Id and email</li>`
                     $('#items').append(mystr);
 
-                    $('#items').append(mystr);
-                }
-                // fill in the order details
-                cart = JSON.parse(data[1]);
-                console.log(cart);
-                for (item in cart) {
-                    let name = cart[item][1];
-                    let qty = cart[item][0];
-                    mystr = ` <li class="list-group-item d-flex justify-content-between align-items-center">
-            ${name}
-            <span class="badge badge-primary badge-pill">${qty}</span>
-        </li>`;
-                    $("#citems").append(mystr);
+                    cit = `<li class="list-group-item d-flex justify-content-between align-items-center">
+                    We could not find any order details matching the provided Order ID and email address. Please check your information and try again.</li>`
+                    $("#citems").append(cit);
                 }
 
             });
